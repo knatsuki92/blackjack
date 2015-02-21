@@ -6,13 +6,8 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
 
-    (@get 'playerHand').on 'bust', @dealerWins,@
-    (@get 'playerHand').on 'stand' , (scores) ->
-      (@get 'dealerHand').hitDealer()
-    ,@
+    @setEventHandlers()
 
-    (@get 'dealerHand').on 'bust', @playerWins,@
-    (@get 'dealerHand').on 'stand', @compare,@
 
   dealerWins: ->
     console.log 'dealer wins'
@@ -32,10 +27,22 @@ class window.App extends Backbone.Model
 
   tie: ->
     console.log 'tie!'
-    newRound()
+    @newRound()
+
+  setEventHandlers: ->
+    (@get 'playerHand').on 'bust', @dealerWins,@
+    (@get 'playerHand').on 'stand' , ->
+      (@get 'dealerHand').hitDealer()
+    ,@
+
+    (@get 'dealerHand').on 'bust', @playerWins,@
+    (@get 'dealerHand').on 'stand', @compare,@
 
   newRound: ->
     @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
+    @set 'playerHand', (@get 'deck').dealPlayer()
+    @set 'dealerHand', (@get 'deck').dealDealer()
+    @setEventHandlers()
+    @trigger 'newRound'
+    return
 
