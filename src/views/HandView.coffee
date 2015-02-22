@@ -9,8 +9,12 @@ class window.HandView extends Backbone.View
 
   render: ->
     @$el.children().detach()
-    @$el.html @template @collection
+    @$el.hide().html @template @collection
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
-    @$('.score').text @collection.scores()[0]
+    @$el.fadeIn(500)
+    @$('.score').text @collection.finalScores()
 
+  # rerender: (newCard) ->
+  #   @$el.append new CardView(model: newCard).$el
+  #   @$('.score').text @collection.finalScores()

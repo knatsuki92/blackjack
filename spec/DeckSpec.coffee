@@ -13,3 +13,10 @@ describe 'deck', ->
       assert.strictEqual deck.length, 50
       assert.strictEqual deck.last(), hand.hit()
       assert.strictEqual deck.length, 49
+
+  describe "deck constructor", ->
+
+    it "should create a card collection", ->
+      collection = new Deck()
+      assert.strictEqual collection.length, 52
+

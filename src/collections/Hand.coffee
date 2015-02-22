@@ -32,10 +32,17 @@ class window.Hand extends Backbone.Collection
     @bust() if (Math.min.apply null, @scores()) > 21
 
   hitDealer: ->
+    @forEach (card)->
+     if card.get('revealed') == false then card.flip()
+
+
     while (Math.max.apply null, @scores()) < 17
       @hit()
 
     @stand() if (Math.max.apply null, @scores()) <= 21
-    @bust() if (Math.max.apply null, @scores()) >21
+    @bust() if (Math.min.apply null, @scores()) >21
 
-
+  finalScores: ->
+    finalScore = (Math.max.apply null, @scores())
+    if finalScore > 21 then finalScore = (Math.min.apply null, @scores())
+    return finalScore

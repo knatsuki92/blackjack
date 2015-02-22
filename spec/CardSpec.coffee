@@ -1,7 +1,15 @@
 assert = chai.assert
 
-describe "deck constructor", ->
+describe 'card', ->
+  card = null
 
-  it "should create a card collection", ->
-    collection = new Deck()
-    assert.strictEqual collection.length, 52
+  beforeEach ->
+    card = new Card
+      rank: 10
+      suit: 3
+
+  describe 'flip', ->
+    it 'should return false when flipped', ->
+      card.flip()
+      assert.strictEqual card.get('revealed'), false
+
